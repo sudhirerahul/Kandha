@@ -1,0 +1,6 @@
+{
+  "buildCommand": "pnpm turbo run build --filter=@kandha/web",
+  "installCommand": "pnpm install",
+  "outputDirectory": "apps/web/.next",
+  "framework": "nextjs"
+}
