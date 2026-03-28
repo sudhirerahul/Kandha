@@ -1,0 +1,9 @@
+{
+  "name": "@kandha/config",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./eslint": "./eslint-base.js",
+    "./typescript": "./tsconfig.base.json"
+  }
+}

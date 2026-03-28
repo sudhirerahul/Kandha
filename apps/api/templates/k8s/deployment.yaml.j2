@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ app_name }}
+  namespace: {{ namespace }}
+  labels:
+    app.kubernetes.io/name: {{ app_name }}
+    app.kubernetes.io/managed-by: kandha
+spec:
+  replicas: {{ replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ app_name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ app_name }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "{{ port }}"
+    spec:
+      containers:
+        - name: {{ app_name }}
+          image: {{ image | default("ghcr.io/" + app_name + ":latest") }}
+          ports:
+            - containerPort: {{ port }}
+              protocol: TCP
+          resources:
+            requests:
+              memory: "{{ memory_request }}"
+              cpu: "{{ cpu_request }}"
+            limits:
+              memory: "{{ memory_limit }}"
+              cpu: "{{ cpu_limit }}"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ port }}
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ port }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "{{ port }}"

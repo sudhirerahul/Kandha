@@ -1,0 +1,32 @@
+{
+  "name": "kandha",
+  "private": true,
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "db:migrate": "pnpm --filter api db:migrate",
+    "db:generate": "pnpm --filter api db:generate",
+    "deps:check": "pnpm dedupe --check",
+    "deps:audit": "pnpm audit --audit-level=high",
+    "env": "node scripts/env.mjs",
+    "env:init": "node scripts/env.mjs init",
+    "env:list": "node scripts/env.mjs list",
+    "env:validate": "node scripts/env.mjs validate"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^2.3.3",
+    "prettier": "^3.3.3",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.3"
+  },
+  "packageManager": "pnpm@9.15.4"
+}
