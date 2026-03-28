@@ -41,9 +41,17 @@ class Settings(BaseSettings):
     # App
     secret_key: str = "change_me_in_production"
     log_level: str = "INFO"
-    cors_origins: list[str] = ["http://localhost:3000"]
+    cors_origins: list[str] = ["http://localhost:3000", "https://kandha.vercel.app"]
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+
+    @property
+    def async_database_url(self) -> str:
+        """Return database_url with asyncpg driver for SQLAlchemy."""
+        url = self.database_url
+        if url.startswith("postgresql://"):
+            return url.replace("postgresql://", "postgresql+asyncpg://", 1)
+        return url
 
 
 @lru_cache
